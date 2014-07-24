@@ -12,7 +12,8 @@
       "jquery-hotkeys": {},
       "marked": {},
       "bootstrap3-datepicker": {},
-      "subs-manager": {}
+      "subs-manager": {},
+      "telescope-module-embedly": {}
     },
     "packages": {
       "momentjs": {
@@ -47,8 +48,8 @@
       },
       "autoform": {
         "git": "https://github.com/aldeed/meteor-autoform.git",
-        "tag": "v0.14.0",
-        "commit": "30de032833052ea61e9d37bca5523264309d4478"
+        "tag": "v0.15.1",
+        "commit": "723aed684ef9d16e94424cde6389b8e4a03d546e"
       },
       "jquery-hotkeys": {
         "git": "https://github.com/terryschen/meteor-jquery-hotkeys.git",
@@ -70,6 +71,11 @@
         "tag": "v1.0.1",
         "commit": "38317052d1601002d4dff537e4e0f61d1aa36e6d"
       },
+      "telescope-module-embedly": {
+        "git": "https://github.com/TelescopeJS/telescope-module-embedly.git",
+        "tag": "v0.2.2",
+        "commit": "8220f763900863e896c9380861e6b431fb0eefae"
+      },
       "blaze-layout": {
         "git": "https://github.com/EventedMind/blaze-layout.git",
         "tag": "v0.2.4",
@@ -77,8 +83,8 @@
       },
       "simple-schema": {
         "git": "https://github.com/aldeed/meteor-simple-schema.git",
-        "tag": "v0.5.1",
-        "commit": "a29956b34d03a4591dbd0eaed9d37009ef48b8db"
+        "tag": "v0.6.0",
+        "commit": "418ec496612fb2afc853e342f0d2269b6674a2fe"
       },
       "collection2": {
         "git": "https://github.com/aldeed/meteor-collection2.git",
