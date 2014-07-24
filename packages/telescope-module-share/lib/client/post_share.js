@@ -1,6 +1,14 @@
+Template[getTemplate('postShare')].helpers({
+  sourceLink: function(){
+    return !!this.url ? this.url : getSiteUrl() + "posts/"+this._id;
+  },
+  viaTwitter: function () {
+    return !!getSetting('twitterAccount') ? 'via='+getSetting('twitterAccount') : '';
+  }
+});
+
 Template[getTemplate('postShare')].events({
   'click .share-link': function(e){
-    console.log('aaa')
     var $this = $(e.target).parents('.post-share').find('.share-link');
     var $share = $this.parents('.post-share').find('.share-options');
     e.preventDefault();

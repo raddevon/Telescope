@@ -32,6 +32,10 @@ postSchemaObject = {
     type: Number,
     optional: true
   },
+  lastCommentedAt: {
+    type: Date,
+    optional: true
+  },
   clicks: {
     type: Number,
     optional: true

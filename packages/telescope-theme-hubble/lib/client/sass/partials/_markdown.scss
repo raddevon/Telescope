@@ -1,4 +1,7 @@
 .markdown{
+	ul, ol, p, pre{
+		margin-bottom: 1em;
+	}
 	strong{
 		font-weight:bold;
 	}
@@ -23,7 +26,6 @@
 		}
 	}
 	p{
-		margin-bottom:1em;
 		&:last-child{
 			margin-bottom:0;
 		}
@@ -54,5 +56,14 @@
 		border: 1px solid #ddd;
 		background-color: #f8f8f8;
 		border-radius: 3px;
+	}
+	pre{
+		padding: 20px;
+		border: 1px solid #ddd;
+		background-color: #f8f8f8;
+		code{
+			border: none;
+			background: none;
+		}	
 	}
 }
