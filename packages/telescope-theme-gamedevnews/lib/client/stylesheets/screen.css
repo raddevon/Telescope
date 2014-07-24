@@ -9,6 +9,7 @@ body{
 
 
 body{
+    background-attachment: fixed;
     background-color:#4b115d; *zoom:1; filter:progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FF4B115D', endColorstr='#FFBA350A');
     background-image:url(http://powerupgames.io/img/background_tile.png), -webkit-gradient(radial, circle 500px at 50% 0, 0, circle 500px at 50% 0, 100, color-stop(0%, #ed5b19), color-stop(100%, rgba(237,91,25,0))), linear-gradient(19deg, #4b115d 0%,#ba350a 100%);
     background-image:url(http://powerupgames.io/img/background_tile.png), -webkit-gradient(radial, circle 500px at 50% 0, 0, circle 500px at 50% 0, 100, color-stop(0%, #ed5b19), color-stop(100%, rgba(237,91,25,0))), -webkit-linear-gradient(71deg, #4b115d 0%, #ba350a 100%);
