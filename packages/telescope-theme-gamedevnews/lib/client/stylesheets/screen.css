@@ -158,8 +158,3 @@ a, a .action, .post-upvote .upvote-link.not-voted i {
         display: none;
     }
 }
-
-@media screen and (max-width: 30em)
-.desktop-nav {
-display: none;
-}
