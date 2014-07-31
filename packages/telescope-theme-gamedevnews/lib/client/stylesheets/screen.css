@@ -124,15 +124,15 @@ body{
 .footer-notice a { color: white; }
 
 .login-button,
-.button{
+.button {
     -webkit-transition: background-color 200ms ease-out;
     -moz-transition: background-color 200ms ease-out;
     -o-transition: background-color 200ms ease-out;
     transition: background-color 200ms ease-out;
 }
-a{
-    -webkit-transition: color 200ms;
-    -moz-transition: color 200ms;
-    -o-transition: color 200ms;
-    transition: color 200ms;
+a, a .action, .post-upvote .upvote-link.not-voted i {
+    -webkit-transition: all 200ms;
+    -moz-transition: all 200ms;
+    -o-transition: all 200ms;
+    transition: all 200ms;
 }
