@@ -1,0 +1,36 @@
+<template name="newNav">
+  <header class="header">
+
+    <a id="mobile-menu" href="#menu" class="mobile mobile-button menu mobile-menu-button"><i class="icon-menu"></i><span>{{i18n "Menu"}}</span></a>
+
+    <ul class="nav site-nav desktop-nav has-dropdown">
+      {{#each navItems}}
+        <li>
+          {{> UI.dynamic template=this}}
+        </li>
+      {{/each}}
+    </ul>
+
+    <h1 class="logo image large" style="height:50px; width:449px; margin-left:-225px;">
+      <a href="/">
+        <img src="/packages/telescope-theme-gamedevnews/lib/client/img/gamedevnews.svg" onerror="this.src=/packages/telescope-theme-gamedevnews/lib/client/gamedevnews.png" style="height:50px;" alt="{{site_title}}"/>
+      </a>
+    </h1>
+    <h1 class="logo image small" style="height:50px; width:110px; margin-left:-55px;">
+      <a href="/">
+        <img src="/packages/telescope-theme-gamedevnews/lib/client/img/gdn.svg" onerror="this.src=/packages/telescope-theme-gamedevnews/lib/client/gdn.png" style="height:50px;" alt="{{site_title}}"/>
+      </a>
+    </h1>
+
+    {{#if canView}}
+    <ul class="nav user-nav  desktop-nav">
+      <li><a id="submit" class="submit button" href="/submit">{{i18n "Post"}}</a></li>
+    </ul>
+    {{/if}}
+
+    <div class="auth-buttons">
+      {{> loginButtons align="right"}}
+    </div>
+
+  </header>
+</template>
