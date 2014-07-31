@@ -69,6 +69,12 @@
 .icon-arrow-up3:before {
     content: "\e60d";
 }
+.icon-user:before {
+    content: "\75";
+}
+.icon-menu:before {
+    content: "\e610";
+}
 
 .icon-up:before, .icon-down:before {
     font-size: 17px;
