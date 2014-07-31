@@ -76,7 +76,9 @@
 }
 /* End icon font */
 
-
+body{
+  background: red;
+}
 
 body{
     background-attachment: fixed;
@@ -112,49 +114,14 @@ body{
 
 .post-upvote .upvote-link.voted i.icon-check { color: rgba(0, 0, 0, 0.8); border-color: rgba(0, 0, 0, 0.8);}
 
-
-
-@font-face {
-    font-family: 'icomoon';
-    src:url('fonts/icomoon.eot?-ew2nid');
-    src:url('fonts/icomoon.eot?#iefix-ew2nid') format('embedded-opentype'),
-        url('fonts/icomoon.woff?-ew2nid') format('woff'),
-        url('fonts/icomoon.ttf?-ew2nid') format('truetype'),
-        url('fonts/icomoon.svg?-ew2nid#icomoon') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-[class^="icon-"], [class*=" icon-"] {
-    font-family: 'icomoon';
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-
-    /* Better Font Rendering =========== */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-.icon-share:before {
-    content: "\e600";
-}
-
-
-
-
-
-
+.post-share > a.share-link, .post-discuss > a.share-link {color: #B3C1C6;}
+.post-share > a.discuss-link, .post-discuss > a.discuss-link {color: #B3C1C6;}
+.post-share > a:hover, .post-share > a:hover .action, .post-discuss > a:hover, .post-discuss > a:hover .action {color: #F36C3D;}
 
 .action{font-weight: 400;}
 
-
-
-
-
+.footer-notice { color: rgba(255, 255, 255, 0.5); }
+.footer-notice a { color: white; }
 
 .login-button,
 .button{
