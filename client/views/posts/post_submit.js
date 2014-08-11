@@ -25,6 +25,12 @@ Template[getTemplate('post_submit')].helpers({
 });
 
 Template[getTemplate('post_submit')].rendered = function(){
+  // run all post submit rendered callbacks
+  var instance = this;
+  postSubmitRenderedCallbacks.forEach(function(callback) {
+    callback(instance);
+  });
+
   Session.set('currentPostStatus', STATUS_APPROVED);
   Session.set('selectedPostId', null);
   if(!this.editor && $('#editor').exists())
@@ -105,7 +111,6 @@ Template[getTemplate('post_submit')].events({
     // console.log(properties)
 
     // ------------------------------ Insert ------------------------------ //
-
     Meteor.call('post', properties, function(error, post) {
       if(error){
         throwError(error.reason);

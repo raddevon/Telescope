@@ -76,6 +76,10 @@ viewParameters.digest = function (terms) {
   };
 }
 
+footerModules = [];
+
+heroModules = [];
+
 // array containing post modules
 modulePositions = [
   'left-left',
@@ -135,9 +139,11 @@ postMeta = [
 ]
 // ------------------------------ Callbacks ------------------------------ //
 
+postSubmitRenderedCallbacks = [];
 postSubmitClientCallbacks = [];
 postSubmitServerCallbacks = [];
 
+postEditRenderedCallbacks = [];
 postEditClientCallbacks = [];
 
 commentEditClientCallbacks = []; // not used yet

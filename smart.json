@@ -12,6 +12,12 @@
     "marked": {},
     "bootstrap3-datepicker": {},
     "subs-manager": {},
-    "telescope-module-embedly": {}
+    "telescope-module-embedly": {},
+    "handlebars-server": {},
+    "npm": {},
+    "mailchimp": {},
+    "synced-cron": {},
+    "cookies": {},
+    "telescope-newsletter": {}
   }
 }
