@@ -19,8 +19,7 @@
       "mailchimp": {},
       "synced-cron": {},
       "cookies": {},
-      "telescope-newsletter": {},
-      "http-publish": {}
+      "telescope-newsletter": {}
     },
     "packages": {
       "momentjs": {
@@ -113,11 +112,6 @@
         "tag": "v0.1.7",
         "commit": "5f97c9cc3ed9d89c53a604a6fdf2ae07aa9f0f41"
       },
-      "http-publish": {
-        "git": "https://github.com/CollectionFS/Meteor-http-publish.git",
-        "tag": "v0.0.10",
-        "commit": "f308999d074a3c4c056a88c431be04cead93228b"
-      },
       "iron-layout": {
         "git": "https://github.com/EventedMind/iron-layout.git",
         "tag": "v0.2.0",
@@ -137,11 +131,6 @@
         "git": "https://github.com/acreeger/meteor-moment.git",
         "tag": "v2.6.0",
         "commit": "26156df681750fd6e6ed77043eef32b6653ebbdf"
-      },
-      "http-methods": {
-        "git": "https://github.com/CollectionFS/Meteor-http-methods.git",
-        "tag": "v0.0.22",
-        "commit": "5b0f7723f49436b8a0a930f284ed05f0b26021fe"
       },
       "blaze-layout": {
         "git": "https://github.com/EventedMind/blaze-layout.git",
