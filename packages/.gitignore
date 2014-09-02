@@ -27,7 +27,6 @@ i18next-meteor
 /marked
 /bootstrap3-datepicker
 /subs-manager
-/telescope-module-embedly
 /telescope-recently-commented
 /iron-layout
 /iron-core
@@ -37,6 +36,5 @@ i18next-meteor
 /mailchimp
 /synced-cron
 /cookies
-/telescope-newsletter
 /http-publish
 /http-methods
