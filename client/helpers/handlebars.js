@@ -15,7 +15,12 @@ UI.registerHelper('eachWithRank', function(items, options) {
 });
 
 UI.registerHelper('getSetting', function(setting, defaultArgument){
-  return getSetting(setting, defaultArgument);
+  var defaultArgument = (typeof defaultArgument !== 'undefined') ? defaultArgument : '';
+  var setting = getSetting(setting, defaultArgument);
+  return setting;
+});
+UI.registerHelper('isLoggedIn', function() {
+  return !!Meteor.user();
 });
 UI.registerHelper('canView', function() {
   return canView(Meteor.user());
@@ -56,4 +61,10 @@ UI.registerHelper('log', function(context){
 
 UI.registerHelper("formatDate", function(datetime, format) {
   return moment(datetime).format(format);
+});
+
+UI.registerHelper("sanitize", function(content) {
+  console.log('cleaning up…')
+  console.log(content)
+  return cleanUp(content);
 });

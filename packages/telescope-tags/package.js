@@ -1,13 +1,13 @@
 Package.describe({summary: "Telescope tags package"});
 
-Package.on_use(function (api) {
+Package.onUse(function (api) {
 
-  api.use(['telescope-lib', 'telescope-base', 'simple-schema'], ['client', 'server']);
+  api.use(['telescope-lib', 'telescope-base', 'aldeed:simple-schema'], ['client', 'server']);
 
   api.use([
     'jquery',
     'underscore',
-    'iron-router',
+    'iron:router',
     'templating'
   ], 'client');
 
@@ -27,5 +27,5 @@ Package.on_use(function (api) {
 
   api.add_files(['lib/server/publications.js'], ['server']);
  
-  api.export(['preloadSubscriptions', 'adminNav', 'Categories', 'addToPostSchema', 'navItems', 'postModules']);
+  api.export(['preloadSubscriptions', 'adminNav', 'Categories', 'addToPostSchema', 'primaryNav', 'postModules']);
 });

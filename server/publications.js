@@ -34,17 +34,42 @@ Meteor.publish('singleUser', function(userIdOrSlug) {
   return [];
 });
 
-Meteor.publish('upvotedPosts', function(userIdOrSlug) {
+Meteor.publish('userData', function(userIdOrSlug) {
   var findById = Meteor.users.findOne(userIdOrSlug);
   var findBySlug = Meteor.users.findOne({slug: userIdOrSlug});
   var user = typeof findById !== 'undefined' ? findById : findBySlug;
-  var upvotedPostIds = _.pluck(user.profile.upvotedPosts, 'itemId');
-  if (this.userId = user._id) { // only publish upvoted posts when users are browsing their own profile
-    return Posts.find({_id: {$in: upvotedPostIds}});
-  }
-  return [];
-});
 
+  // user's own posts
+  var userPosts = Posts.find({userId: user._id});
+  var postsIds = _.pluck(userPosts.fetch(), '_id');
+
+  // user's own comments
+  var userComments = Comments.find({userId: user._id});
+  var commentsIds = _.pluck(userComments.fetch(), '_id');
+
+  // add upvoted posts ids
+  var postsIds = postsIds.concat(_.pluck(user.votes.upvotedPosts, 'itemId'));
+
+  // add upvoted comments ids
+  var commentsIds = commentsIds.concat(_.pluck(user.votes.upvotedComments, 'itemId'));
+
+  // add downvoted posts ids
+  var postsIds = postsIds.concat(_.pluck(user.votes.downvotedPosts, 'itemId'));
+
+  // add downvoted comments ids
+  var commentsIds = commentsIds.concat(_.pluck(user.votes.downvotedComments, 'itemId'));
+    
+  // add commented posts ids
+  if(!!userComments.count()){ // there might not be any comments
+    var commentedPostIds = _.pluck(userComments.fetch(), 'postId');
+    var postsIds = postsIds.concat(commentedPostIds);
+  }
+
+  return [
+    Comments.find({_id: {$in: commentsIds}}),
+    Posts.find({_id: {$in: postsIds}})
+  ];
+});
 
 // Publish authors of the current post and its comments
 
@@ -105,12 +130,15 @@ Meteor.publish('allUsers', function(filterBy, sortBy, limit) {
 // TODO: find a better way
 
 Meteor.publish('allUsersAdmin', function() {
-  var selector = getSetting('requirePostInvite') ? {isInvited: true} : {};
+  var selector = getSetting('requirePostInvite') ? {isInvited: true} : {}; // only users that can post
   if (isAdminById(this.userId)) {
-    return Meteor.users.find(selector);
-  } else {
-    return [];
+    return Meteor.users.find(selector, {fields: {
+      _id: true,
+      profile: true,
+      slug: true
+    }});
   }
+  return [];
 });
 
 // -------------------------------------------- Posts -------------------------------------------- //
@@ -192,4 +220,10 @@ Meteor.publish('notifications', function() {
     return Notifications.find({userId:this.userId});
   }
   return [];
+});
+
+Meteor.publish('invites', function(){
+  if(canViewById(this.userId)){
+    return Invites.find({invitingUserId:this.userId});
+  }
 });

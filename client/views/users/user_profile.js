@@ -22,13 +22,41 @@ Template[getTemplate('user_profile')].helpers({
   getGitHubName: function () {
     return getGitHubName(this);
   },
-  upvotes: function () {
+  posts: function () {
+    return Posts.find({userId: this._id});
+  },
+  upvotedPosts: function () {
     // extend upvotes with each upvoted post
-    var extendedVotes = Meteor.user().profile.upvotedPosts.map(function (item) {
-      var post = Posts.findOne(item.itemId);
-      return _.extend(item, post);
-    });
-    return extendedVotes
+    if(!!this.votes.upvotedPosts){
+      var extendedVotes = this.votes.upvotedPosts.map(function (item) {
+        var post = Posts.findOne(item.itemId);
+        return _.extend(item, post);
+      });
+      return extendedVotes
+    }
+  },
+  downvotedPosts: function () {
+    // extend upvotes with each upvoted post
+    if(!!this.votes.downvotedPosts){
+      var extendedVotes = this.votes.downvotedPosts.map(function (item) {
+        var post = Posts.findOne(item.itemId);
+        return _.extend(item, post);
+      });
+      return extendedVotes
+    }
+  },  
+  comments: function () {
+    var comments = Comments.find({userId: this._id})
+    if(!!comments){
+      // extend comments with each commented post
+      var extendedComments = comments.map(function (comment) {
+        var post = Posts.findOne(comment.postId);
+        if(post) // post might not be available anymore
+          comment.postTitle = post.title;
+        return comment;
+      });
+      return extendedComments    
+    }
   }
 });
 

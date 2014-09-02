@@ -24,12 +24,16 @@ postSchemaObject = {
     type: String,
     optional: true
   },
-  author: {
+  htmlBody: {
     type: String,
     optional: true
   },
-  comments: {
+  commentsCount: {
     type: Number,
+    optional: true
+  },
+  commenters: {
+    type: [String],
     optional: true
   },
   lastCommentedAt: {
@@ -107,9 +111,8 @@ Posts.deny({
 });
 
 Posts.allow({
-    insert: canPostById
-  , update: canEditById
-  , remove: canEditById
+  update: canEditById,
+  remove: canEditById
 });
 
 clickedPosts = [];
@@ -121,7 +124,7 @@ getPostProperties = function(post) {
     postAuthorName : getDisplayName(postAuthor),
     postTitle : cleanUp(post.title),
     profileUrl: getProfileUrlById(post.userId),
-    postUrl: getPostPageUrl(post._id),
+    postUrl: getPostPageUrl(post),
     thumbnailUrl: post.thumbnailUrl,
     linkUrl: !!post.url ? getOutgoingUrl(post.url) : getPostPageUrl(post._id)
   };
@@ -129,8 +132,8 @@ getPostProperties = function(post) {
   if(post.url)
     p.url = post.url;
 
-  if(post.body)
-    p.body = marked(post.body);
+  if(post.htmlBody)
+    p.htmlBody = post.htmlBody;
 
   return p;
 }
@@ -148,10 +151,23 @@ getPostLink = function (post) {
   return !!post.url ? getOutgoingUrl(post.url) : getPostPageUrl(post);
 }
 
+Posts.before.insert(function (userId, doc) {
+  if(!!doc.body)
+    doc.htmlBody = sanitize(marked(doc.body));
+});
+
+Posts.before.update(function (userId, doc, fieldNames, modifier, options) {
+  // if body is being modified, update htmlBody too
+  if (modifier.$set && modifier.$set.body) {
+    modifier.$set = modifier.$set || {};
+    modifier.$set.htmlBody = sanitize(marked(modifier.$set.body));
+  }
+});
+
 Meteor.methods({
   post: function(post){
     var title = cleanUp(post.title),
-        body = cleanUp(post.body),
+        body = post.body,
         userId = this.userId,
         user = Meteor.users.findOne(userId),
         timeSinceLastPost=timeSinceLast(user, Posts),
@@ -174,7 +190,7 @@ Meteor.methods({
 
     if(!!post.url){
       // check that there are no previous posts with the same link in the past 6 months
-      var sixMonthsAgo = moment().subtract('months', 6).toDate();
+      var sixMonthsAgo = moment().subtract(6, 'months').toDate();
       var postWithSameLink = Posts.findOne({url: post.url, postedAt: {$gte: sixMonthsAgo}});
 
       if(typeof postWithSameLink !== 'undefined'){
@@ -203,7 +219,7 @@ Meteor.methods({
       author: getDisplayNameById(userId),
       upvotes: 0,
       downvotes: 0,
-      comments: 0,
+      commentsCount: 0,
       baseScore: 0,
       score: 0,
       inactive: false,

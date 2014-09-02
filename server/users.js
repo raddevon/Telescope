@@ -6,7 +6,13 @@ Accounts.onCreateUser(function(options, user){
     isAdmin: false,
     postCount: 0,
     commentCount: 0,
-    invitedCount: 0
+    invitedCount: 0,
+    votes: {
+      upvotedPosts: [],
+      downvotedPosts: [],
+      upvotedComments: [],
+      downvotedComments: []
+    }
   };
   user = _.extend(user, userProperties);
 
@@ -47,6 +53,25 @@ Accounts.onCreateUser(function(options, user){
   //     }
   //   });
 
+  // if the new user has been invited 
+  // set her status accordingly and update invitation info
+  if(invitesEnabled() && user.profile.email){
+    var invite = Invites.findOne({ invitedUserEmail : user.profile.email });
+    if(invite){
+      var invitedBy = Meteor.users.findOne({ _id : invite.invitingUserId });
+      
+      user = _.extend(user, {
+        isInvited: true,
+        invitedBy: invitedBy._id,
+        invitedByName: getDisplayName(invitedBy)
+      });
+
+      Invites.update(invite._id, {$set : {
+        accepted : true
+      }});
+    }
+  }
+
   // send notifications to admins
   var admins = Meteor.users.find({isAdmin: true});
   admins.forEach(function(admin){
@@ -55,7 +80,7 @@ Accounts.onCreateUser(function(options, user){
         profileUrl: getProfileUrl(user),
         username: getUserName(user)
       }
-      var html = Handlebars.templates[getTemplate('emailNewUser')](emailProperties);
+      var html = getEmailTemplate('emailNewUser')(emailProperties);
       sendEmail(getEmail(admin), 'New user account: '+getUserName(user), buildEmailTemplate(html));
     }
   });
@@ -77,9 +102,6 @@ Meteor.methods({
   },
   numberOfCommentsToday: function(){
     console.log(numberOfItemsInPast24Hours(Meteor.user(), Comments));
-  },
-  testEmail: function(){
-    Email.send({from: 'test@test.com', to: getEmail(Meteor.user()), subject: 'Telescope email test', text: 'lorem ipsum dolor sit amet.'});
   },
   testBuffer: function(){
     // TODO

@@ -1,6 +1,10 @@
-Package.describe({summary: "Telescope library package"});
+Package.describe({
+  summary: "Telescope library package",
+  version: '0.2.9',
+  name: "telescope-lib"
+});
 
-Package.on_use(function (api) {
+Package.onUse(function (api) {
 
   api.use([
     'underscore'
@@ -18,7 +22,9 @@ Package.on_use(function (api) {
     'deepExtend', 
     'camelToDash',
     'dashToCamel',
+    'camelCaseify',
     'getSetting',
+    'getThemeSetting',
     'getSiteUrl',
     'trimWords'
   ]);

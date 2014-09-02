@@ -19,6 +19,10 @@ Comments = new Meteor.Collection("comments", {
     body: {
       type: String,
     },
+    htmlBody: {
+      type: String,
+      optional: true
+    },
     baseScore: {
       type: Number,
       decimal: true,
@@ -74,13 +78,21 @@ Comments.deny({
 });
 
 Comments.allow({
-  insert: canCommentById,
   update: canEditById,
   remove: canEditById
 });
 
+Comments.before.insert(function (userId, doc) {
+  doc.htmlBody = sanitize(marked(doc.body));
+});
 
-
+Comments.before.update(function (userId, doc, fieldNames, modifier, options) {
+  // if body is being modified, update htmlBody too
+  if (modifier.$set && modifier.$set.body) {
+    modifier.$set = modifier.$set || {};
+    modifier.$set.htmlBody = sanitize(marked(modifier.$set.body));
+  }
+});
 
 Meteor.methods({
   comment: function(postId, parentCommentId, text){
@@ -88,7 +100,6 @@ Meteor.methods({
         post=Posts.findOne(postId),
         postUser=Meteor.users.findOne(post.userId),
         timeSinceLastComment=timeSinceLast(user, Comments),
-        cleanText= cleanUp(text),
         commentInterval = Math.abs(parseInt(getSetting('commentInterval',15))),
         now = new Date();
 
@@ -101,12 +112,12 @@ Meteor.methods({
       throw new Meteor.Error(704, i18n.t('Please wait ')+(commentInterval-timeSinceLastComment)+i18n.t(' seconds before commenting again'));
 
     // Don't allow empty comments
-    if (!cleanText)
+    if (!text)
       throw new Meteor.Error(704,i18n.t('Your comment is empty.'));
           
     var comment = {
       postId: postId,
-      body: cleanText,
+      body: text,
       userId: user._id,
       createdAt: now,
       postedAt: now,
@@ -123,12 +134,18 @@ Meteor.methods({
     var newCommentId=Comments.insert(comment);
 
     // increment comment count
-    Meteor.users.update({_id: user._id}, {$inc: {commentCount: 1}});
+    Meteor.users.update({_id: user._id}, {
+      $inc:       {'data.commentsCount': 1}
+    });
 
     // extend comment with newly created _id
     comment = _.extend(comment, {_id: newCommentId});
 
-    Posts.update(postId, {$inc: {comments: 1}, $set: {lastCommentedAt: now}});
+    Posts.update(postId, {
+      $inc:       {commentsCount: 1},
+      $set:       {lastCommentedAt: now},
+      $addToSet:  {commenters: user._id}
+    });
 
     Meteor.call('upvoteComment', comment);
 
@@ -167,11 +184,16 @@ Meteor.methods({
   removeComment: function(commentId){
     var comment=Comments.findOne(commentId);
     if(canEdit(Meteor.user(), comment)){
-      // decrement post comment count
-      Posts.update(comment.postId, {$inc: {comments: -1}});
+      // decrement post comment count and remove user ID from post
+      Posts.update(comment.postId, {
+        $inc:   {commentsCount: -1},
+        $pull:  {commenters: comment.userId}
+      });
 
-      // decrement user comment count
-      Meteor.users.update({_id: comment.userId}, {$inc: {commentCount: -1}});
+      // decrement user comment count and remove comment ID from user
+      Meteor.users.update({_id: comment.userId}, {
+        $inc:   {'data.commentsCount': -1}
+      });
 
       // note: should we also decrease user's comment karma ?
       Comments.remove(commentId);

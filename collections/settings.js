@@ -7,7 +7,7 @@ settingsSchemaObject = {
   siteUrl: {
     type: String,
     optional: true,
-    label: 'Site URL (include trailing slash)'
+    label: 'Site URL (with trailing "/")'
   },
   tagline: {
     type: String,
@@ -52,6 +52,18 @@ settingsSchemaObject = {
     type: Number,
     optional: true
   }, 
+  defaultView: {
+    type: String,
+    optional: true,
+    autoform: {
+      options: _.map(viewNav, function (view) {
+        return {
+          value: camelCaseify(view.label),
+          label: view.label
+        }
+      })
+    },
+  },
   postInterval: {
     type: Number,
     optional: true
@@ -96,18 +108,26 @@ settingsSchemaObject = {
     optional: true,
     label: "Background CSS: color, image, etc."
   },
-  secondaryColor: {
-    type: String,
-    optional: true
-  },
+  // secondaryColor: {
+  //   type: String,
+  //   optional: true
+  // },
   buttonColor: {
     type: String,
     optional: true
   },
+  buttonTextColor: {
+    type: String,
+    optional: true
+  },  
   headerColor: {
     type: String,
     optional: true
   },
+  headerTextColor: {
+    type: String,
+    optional: true
+  },  
   twitterAccount: {
     type: String,
     optional: true

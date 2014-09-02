@@ -158,3 +158,11 @@ a, a .action, .post-upvote .upvote-link.not-voted i {
         display: none;
     }
 }
+
+input[type="submit"], button, .button, .btn {
+    background-color: #F36C35;
+}
+
+.post-share > a .count, .post-discuss > a .count {
+    top: 16px;
+}

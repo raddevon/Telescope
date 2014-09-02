@@ -1,8 +1,8 @@
 Package.describe({summary: "Telescope base package"});
 
-Package.on_use(function (api) {
+Package.onUse(function (api) {
 
-  api.use(['telescope-lib'], ['client', 'server']);
+  api.use(['telescope-i18n', 'telescope-lib'], ['client', 'server']);
 
   api.add_files(['lib/base.js'], ['client', 'server']);
   api.add_files(['lib/base_client.js'], ['client']);
@@ -15,7 +15,8 @@ Package.on_use(function (api) {
     'addToCommentsSchema', 
     'addToSettingsSchema', 
     'preloadSubscriptions', 
-    'navItems', 
+    'primaryNav', 
+    'secondaryNav', 
     'viewParameters',
     'footerModules',
     'heroModules',
@@ -36,6 +37,8 @@ Package.on_use(function (api) {
     'commentEditClientCallbacks',
     
     'getTemplate',
-    'templates'
+    'templates',
+
+    'themeSettings'
     ]);
 });

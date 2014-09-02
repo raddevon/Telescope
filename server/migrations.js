@@ -13,21 +13,32 @@ Meteor.startup(function () {
 
 // wrapper function for all migrations
 var runMigration = function (migrationName) {
-  // migration updatePostStatus: make sure posts have a status
-  if (!Migrations.findOne({name: migrationName})) {
-    console.log("//----------------------------------------------------------------------//");
-    console.log("//------------//    Starting "+migrationName+" Migration    //-----------//");
-    console.log("//----------------------------------------------------------------------//");
-    Migrations.insert({name: migrationName, startedAt: new Date(), completed: false});
+  var migration = Migrations.findOne({name: migrationName});
 
-    // execute migration function
-    var itemsAffected = migrationsList[migrationName]() || 0;
-
-    Migrations.update({name: migrationName}, {$set: {finishedAt: new Date(), completed: true, itemsAffected: itemsAffected}});
-    console.log("//----------------------------------------------------------------------//");
-    console.log("//------------//     Ending "+migrationName+" Migration     //-----------//");
-    console.log("//----------------------------------------------------------------------//");
+  if (migration){
+    if(typeof migration.finishedAt === 'undefined'){
+      // if migration exists but hasn't finished, remove it and start fresh
+      console.log('!!! Found incomplete migration "'+migrationName+'", removing and running again.')
+      Migrations.remove({name: migrationName});
+    }else{
+      // do nothing
+      // console.log('Migration "'+migrationName+'" already exists, doing nothing.')
+      return
+    }
   }
+
+  console.log("//----------------------------------------------------------------------//");
+  console.log("//------------//    Starting "+migrationName+" Migration    //-----------//");
+  console.log("//----------------------------------------------------------------------//");
+  Migrations.insert({name: migrationName, startedAt: new Date(), completed: false});
+
+  // execute migration function
+  var itemsAffected = migrationsList[migrationName]() || 0;
+
+  Migrations.update({name: migrationName}, {$set: {finishedAt: new Date(), completed: true, itemsAffected: itemsAffected}});
+  console.log("//----------------------------------------------------------------------//");
+  console.log("//------------//     Ending "+migrationName+" Migration     //-----------//");
+  console.log("//----------------------------------------------------------------------//");
 }
 
 var migrationsList = {
@@ -108,21 +119,24 @@ var migrationsList = {
       i++;
       console.log('> Updating user '+user._id+' ('+user.username+')');
 
+      var properties = {}
       // update user slug
       if(getUserName(user))
-        Meteor.users.update(user._id, {$set:{slug: slugify(getUserName(user))}});
+        properties.slug = slugify(getUserName(user));
 
       // update user isAdmin flag
       if(typeof user.isAdmin === 'undefined')
-        Meteor.users.update(user._id, {$set: {isAdmin: false}});
+        properties.isAdmin = false;
 
       // update postCount
       var postsByUser = Posts.find({userId: user._id});
-      Meteor.users.update(user._id, {$set: {postCount: postsByUser.count()}});
+      properties.postCount = postsByUser.count();
       
       // update commentCount
       var commentsByUser = Comments.find({userId: user._id});
-      Meteor.users.update(user._id, {$set: {commentCount: commentsByUser.count()}});
+      properties.commentCount = commentsByUser.count();
+
+      Meteor.users.update(user._id, {$set:properties});
 
     });
     return i;
@@ -277,6 +291,76 @@ var migrationsList = {
       i++;
       console.log("Notification: "+n._id);
       Notifications.remove(n._id);
+      console.log("---------------------");
+    });
+    return i;
+  },
+  commentsToCommentsCount: function () {
+    var i = 0;
+    Posts.find({commentsCount: {$exists : false}}).forEach(function (post) {
+      i++;
+      console.log("Post: "+post._id);
+      Posts.update(post._id, { $rename: { 'comments': 'commentsCount'}}, {multi: true, validate: false});
+      console.log("---------------------");
+    });
+    return i;
+  },
+  addCommentersToPosts: function () {
+    var i = 0;
+    Comments.find().forEach(function (comment) {
+      i++;
+      console.log("Comment: "+comment._id);
+      console.log("Post: "+comment.postId);
+      Posts.update(comment.postId, { $addToSet: { 'commenters': comment.userId}}, {multi: true, validate: false});
+      console.log("---------------------");
+    });
+    return i;
+  },
+  createVotes: function () { // create empty user.votes object
+    var i = 0;
+    Meteor.users.find({votes: {$exists : false}}).forEach(function (user) {
+      i++;
+      console.log("User: "+user._id);
+      Meteor.users.update(user._id, {$set: {votes: {}}}, {multi: true, validate: false});
+      console.log("---------------------");
+    });
+    return i;
+  },
+  moveVotesFromProfile: function () {
+    var i = 0;
+    Meteor.users.find().forEach(function (user) {
+      i++;
+      console.log("User: "+user._id);
+      Meteor.users.update(user._id, {
+        $rename: {
+          'profile.upvotedPosts': 'votes.upvotedPosts',
+          'profile.downvotedPosts': 'votes.downvotedPosts',
+          'profile.upvotedComments': 'votes.upvotedComments',
+          'profile.downvotedComments': 'votes.downvotedComments'
+        }
+      }, {multi: true, validate: false});
+      console.log("---------------------");
+    });
+    return i;
+  },
+  addHTMLBody: function () {
+    var i = 0;
+    Posts.find({body: {$exists : true}}).forEach(function (post) {
+      i++;
+      var htmlBody = sanitize(marked(post.body));
+      console.log("Post: "+post._id);
+      Posts.update(post._id, { $set: { 'htmlBody': htmlBody}}, {multi: true, validate: false});
+      console.log("---------------------");
+    });
+    return i;
+  },
+  addHTMLComment: function () {
+    var i = 0;
+    Comments.find({body: {$exists : true}}).forEach(function (comment) {
+      i++;
+      var htmlBody = sanitize(marked(comment.body));
+      console.log("Comment: "+comment._id);
+      Comments.update(comment._id, { $set: { 'htmlBody': htmlBody}}, {multi: true, validate: false});
       console.log("---------------------");
     });
     return i;

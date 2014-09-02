@@ -1,6 +1,31 @@
-## v0.9.3
+* Removed unneeded allow insert on Posts and Comments. 
+
+## v0.9.3 “DailyScope”
+
+* Show user comments on user profile page. 
+* Move votes to their own `user.votes` object.
+* Add daily view.
+* Default root view is now customizable. 
+* Updated app to 0.9.0.
+* Updated all packages to be 0.9.0-compatible.
+* Fixed XSS bug (CVE ID: CVE-2014-5144) by sanitizing user input server-side.
+* Now storing both markdown and HTML versions of content. 
+
+## v0.9.2.6 “InviteScope”
+
+* Added new invite features (thanks [@callmephilip](https://github.com/callmephilip)!)
+* Changed `navItems` to `primaryNav` and added `secondaryNav`. 
+* Added new `themeSettings` object for storing theme-level settings.
+* Notifications is now a nav menu item. 
+* Renamed `comments` to `commentsCount` on `Post` model.
+* Now tracking list of commenters `_id`s on `Post` model.
+* Rerun interrupted migrations. 
+
+## v0.9.2.5 “AccountScope”
 
 * Now keeping track of upvoted/downvoted posts & comments.
+* Using [accounts-entry](https://github.com/Differential/accounts-entry/) for accounts stuff.
+* Split out part of the Hubble theme into a new “base” theme.
 
 ## v0.9.2 “MailScope”
 
