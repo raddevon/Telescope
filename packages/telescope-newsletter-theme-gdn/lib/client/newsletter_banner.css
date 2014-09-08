@@ -1,0 +1,28 @@
+.newsletter-banner.newsletter-banner {
+    background: #dc3c1c;
+    background: -moz-linear-gradient(top,  #dc3c1c 0%, #c01d38 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#dc3c1c), color-stop(100%,#c01d38));
+    background: -webkit-linear-gradient(top,  #dc3c1c 0%,#c01d38 100%);
+    background: -o-linear-gradient(top,  #dc3c1c 0%,#c01d38 100%);
+    background: -ms-linear-gradient(top,  #dc3c1c 0%,#c01d38 100%);
+    background: linear-gradient(to bottom,  #dc3c1c 0%,#c01d38 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dc3c1c', endColorstr='#c01d38',GradientType=0 );
+    border: 8px solid rgba(0, 0, 0, 0.5);
+    margin: 22px 0;
+}
+
+.newsletter-tagline {
+    color: #fff;
+    font-weight: normal;
+    font-size: 20px;
+}
+
+.newsletter-dismiss, .newsletter-dismiss:link, .newsletter-dismiss:visited {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.newsletter-email.newsletter-email {
+    border-radius: 0;
+    border: 2px solid #000;
+    font-size: 18px;
+}

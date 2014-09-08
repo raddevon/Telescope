@@ -60,6 +60,7 @@ telescope-module-embedly
 telescope-i18n
 telescope-email
 telescope-theme-gamedevnews
+telescope-newsletter-theme-gdn
 
 
 npm-container
