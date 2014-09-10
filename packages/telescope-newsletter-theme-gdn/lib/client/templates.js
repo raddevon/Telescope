@@ -1,0 +1,1 @@
+templates['newsletterBanner'] = newNewsletterBanner;

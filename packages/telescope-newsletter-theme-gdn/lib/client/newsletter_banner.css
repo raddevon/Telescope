@@ -26,3 +26,17 @@
     border: 2px solid #000;
     font-size: 18px;
 }
+
+.button.newsletter-button {
+    border-radius: 0;
+    background-color: #000;
+    text-transform: uppercase;
+    padding: 14px 10px;
+    margin: 2px;
+}
+
+.button.newsletter-button:hover {
+    border: 2px solid #000;
+    margin: 0;
+    padding: 14px 10px;
+}
