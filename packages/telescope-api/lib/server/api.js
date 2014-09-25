@@ -1,4 +1,4 @@
-postAPI = function(limitSegment){
+serveAPI = function(limitSegment){
   var posts = [];
   var limit = typeof limitSegment === 'undefined' ? 20 : limitSegment // default limit: 20 posts
 
@@ -60,51 +60,4 @@ postAPI = function(limitSegment){
   });
 
   return JSON.stringify(posts);
-};
-
-commentAPI = function(postIdSegment, limitSegment){
-  var comments = [];
-  var limit = typeof limitSegment === 'undefined' ? 20 : limitSegment // default limit: 20 posts
-  if (postIdSegment) {
-    var postId = postIdSegment;
-  } else {
-    throw Meteor.Error(400, "Needs Post ID", "You must submit a post ID when requesting a comment list.");
-  }
-
-  Comments.find({postId: postId}, {sort: {postedAt: -1}, limit: limit}).forEach(function(comment) {
-    var properties = {
-     body: comment.body,
-     author: comment.author,
-     date: comment.postedAt,
-     guid: comment._id,
-       parentCommentId: comment.parentCommentId
-    };
-
-    if(twitterName = getTwitterNameById(comment.userId))
-      properties.twitterName = twitterName;
-
-    comments.push(properties);
-
-  });
-
-  var commentsToDelete = [];
-
-  comments.forEach(function(comment, index) {
-    if (comment.parentCommentId) {
-      var parent = comments.filter(function(obj) {
-        return obj.guid === comment.parentCommentId;
-      })[0];
-      if (parent) {
-        parent.replies = parent.replies || [];
-        parent.replies.push(JSON.parse(JSON.stringify(comment)));
-        commentsToDelete.push(index)
-      }
-    }
-  });
-
-  commentsToDelete.reverse().forEach(function(index) {
-    comments.splice(index,1);
-  });
-
-  return JSON.stringify(comments);
 };

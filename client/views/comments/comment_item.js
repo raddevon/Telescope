@@ -60,7 +60,7 @@ Template[getTemplate('comment_item')].created = function() {
   // if comments are supposed to be queued, then queue this comment on create
   this.isQueued = window.queueComments;
   window.openedComments = [];
-}
+};
 
 Template[getTemplate('comment_item')].helpers({
   comment_item: function () {
@@ -138,9 +138,9 @@ Template[getTemplate('comment_item')].rendered=function(){
   //     // TODO: take the user back to their previous scroll position
   //   }
   // }
-}
+};
 
-Template.comment_item.events({
+Template[getTemplate('comment_item')].events({
   'click .queue-comment': function(e){
     e.preventDefault();
     var current_comment_id=$(event.target).closest(".comment").attr("id");
@@ -156,7 +156,7 @@ Template.comment_item.events({
   'click .not-upvoted .upvote': function(e, instance){
     e.preventDefault();
     if(!Meteor.user()){
-      Router.go('/signin');
+      Router.go(getSigninUrl());
       throwError(i18n.t("Please log in first"));
     }
     Meteor.call('upvoteComment', this, function(error, result){
@@ -166,7 +166,7 @@ Template.comment_item.events({
   'click .upvoted .upvote': function(e, instance){
     e.preventDefault();
     if(!Meteor.user()){
-      Router.go('/signin');
+      Router.go(getSigninUrl());
       throwError(i18n.t("Please log in first"));
     }
     Meteor.call('cancelUpvoteComment', this, function(error, result){
@@ -176,7 +176,7 @@ Template.comment_item.events({
   'click .not-downvoted .downvote': function(e, instance){
     e.preventDefault();
     if(!Meteor.user()){
-      Router.go('/signin');
+      Router.go(getSigninUrl());
       throwError(i18n.t("Please log in first"));
     }
     Meteor.call('downvoteComment', this, function(error, result){
@@ -186,7 +186,7 @@ Template.comment_item.events({
   'click .downvoted .downvote': function(e, instance){
     e.preventDefault();
     if(!Meteor.user()){
-      Router.go('/signin');
+      Router.go(getSigninUrl());
       throwError(i18n.t("Please log in first"));
     }
     Meteor.call('cancelDownvoteComment', this, function(error, result){

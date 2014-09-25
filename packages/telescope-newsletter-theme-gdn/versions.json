@@ -5,8 +5,24 @@
       "1.0.3"
     ],
     [
+      "application-configuration",
+      "1.0.2"
+    ],
+    [
+      "base64",
+      "1.0.0"
+    ],
+    [
+      "binary-heap",
+      "1.0.0"
+    ],
+    [
       "blaze",
       "2.0.0"
+    ],
+    [
+      "callback-hook",
+      "1.0.0"
     ],
     [
       "check",
@@ -17,11 +33,19 @@
       "0.2.0"
     ],
     [
+      "ddp",
+      "1.0.8"
+    ],
+    [
       "deps",
       "1.0.3"
     ],
     [
       "ejson",
+      "1.0.2"
+    ],
+    [
+      "follower-livedata",
       "1.0.1"
     ],
     [
@@ -34,7 +58,7 @@
     ],
     [
       "htmljs",
-      "1.0.0"
+      "1.0.1"
     ],
     [
       "id-map",
@@ -65,16 +89,28 @@
       "1.0.0"
     ],
     [
-      "meteor",
+      "logging",
       "1.0.3"
     ],
     [
+      "meteor",
+      "1.1.0"
+    ],
+    [
+      "meteorhacks:async",
+      "1.0.0"
+    ],
+    [
       "meteorhacks:npm",
-      "1.1.4"
+      "1.2.0"
     ],
     [
       "minimongo",
-      "1.0.2"
+      "1.0.3"
+    ],
+    [
+      "mongo",
+      "1.0.5"
     ],
     [
       "mrt:cookies",
@@ -94,7 +130,7 @@
     ],
     [
       "percolatestudio:synced-cron",
-      "0.1.1"
+      "0.3.0"
     ],
     [
       "random",
@@ -107,6 +143,10 @@
     [
       "reactive-var",
       "1.0.1"
+    ],
+    [
+      "retry",
+      "1.0.0"
     ],
     [
       "spacebars",
@@ -126,11 +166,11 @@
     ],
     [
       "telescope-newsletter",
-      "0.0.0"
+      "0.1.0"
     ],
     [
       "templating",
-      "1.0.5"
+      "1.0.6"
     ],
     [
       "tracker",
@@ -146,6 +186,6 @@
     ]
   ],
   "pluginDependencies": [],
-  "toolVersion": "meteor-tool@1.0.28",
+  "toolVersion": "meteor-tool@1.0.31",
   "format": "1.0"
 }
