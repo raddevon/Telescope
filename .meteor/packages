@@ -68,11 +68,9 @@ rajit:bootstrap3-datepicker
 telescope-update-prompt
 telescope-notifications
 spacebars
-sitemaps
 telescope-kadira
 
 # Accounts Templates
 service-configuration
 accounts-ui
 splendido:accounts-templates-unstyled
-
