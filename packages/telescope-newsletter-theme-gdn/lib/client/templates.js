@@ -1,1 +1,1 @@
-templates['newsletterBanner'] = newNewsletterBanner;
+templates['newsletterBanner'] = 'newNewsletterBanner';
