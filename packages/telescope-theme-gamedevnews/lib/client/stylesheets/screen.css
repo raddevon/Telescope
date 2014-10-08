@@ -166,3 +166,10 @@ input[type="submit"], button, .button, .btn {
 .post-share > a .count, .post-discuss > a .count {
     top: 16px;
 }
+
+a.more-button, a:link.more-button, a:visited.more-button {
+    color: #fff;
+}
+a.more-button:hover {
+    color: #DD3416;
+}
